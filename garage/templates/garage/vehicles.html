@@ -1,0 +1,9 @@
+{% extends 'garage/vehicles_list.html' %}
+
+{% block buttons %}
+    <div class="row mt-5">
+        <a href="{% url 'garage:home' %}" class=" btn btn-sm btn-primary col-md-2" >Annuler</a>
+        <div class="col-md-8"></div>
+        <button class=" btn btn-primary btn-sm col-md-2" onClick="updateVehicle()">Modifier</button>
+    </div>
+{% endblock buttons %}

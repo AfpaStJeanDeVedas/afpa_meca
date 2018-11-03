@@ -1,0 +1,92 @@
+body {
+  margin: auto;
+}
+
+[class*="col-"] {
+  border-radius: 6px;
+  /* border: 1px solid indigo;  */
+}
+
+#btn_ident {
+  margin-top : 1px;
+  height: 1px;
+}
+
+#title {
+  font-family: serif;
+  font-size: 40px; 
+  text-align: center;
+}
+
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+.border-top-gray { border-top-color: #adb5bd; }
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.lh-condensed { line-height: 1.25; }
+
+#listing:hover{
+  background-color: rgba(121, 126, 122, 0.541);
+}
+
+:checked + label{
+  background-color: rgba(70, 131, 180, 0.671);
+}
+
+.radio{
+  display: none;
+}
+
+
+#loginBox{
+  border: 1px solid black;
+  background-color: white;
+  opacity: 0.85;
+}
+
+.checkmark{
+  text-align: center;
+  border : 2px solid rgb(45, 110, 172);
+
+}
+
+
+
+h4, h2{
+  color: steelblue;
+}
+
+h1{
+  color: rgb(26, 95, 151);
+}
+
+.control-label{
+  font-weight: bold;
+  color: rgb(26, 95, 151);
+}
+
+#error{
+  color: red;
+}
+
+#folder{
+  margin-top: -10px; 
+  margin-left: -13px;
+  border-right : 2px solid rgb(45, 110, 172);
+  border-left : 2px solid rgb(45, 110, 172);
+  border-top : 2px solid rgb(45, 110, 172);
+  padding-bottom: 20px; 
+  padding-left: 13px;
+}
+
+.alert{
+  color: red;
+  text-align: center;
+}
+
+.supplier{
+  padding-top: 10px; 
+  padding-bottom: 10px; 
+  border: 1px solid rgb(45, 110, 172);;
+}

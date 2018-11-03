@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  {% load static %}
+  <title>AFPA Méca. Authent</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'garage/img/favicon.ico' %}"/>
+  <link href="{% static 'garage/css/style.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'garage/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'garage/css/test.css' %}" rel="stylesheet">
+</head>
+
+<style>
+  #loginImg{
+  background: url("{% static '/garage/img/accueil page.jpg' %}") no-repeat;
+  background-size: 120%;
+}
+</style>
+
+<body class="text-center mt-5">
+  <div class="container img-responsive" id="loginImg">    
+    <div class="col-md-12 mb-5"> </div>
+    <div class="container col-lg-4 col-sm-5" id="loginBox"> 
+        <img class="mb-5 mt-3" src="{% static 'garage/img/logo_afpa2.png' %}" alt="" width="140" height="100"></img>
+
+        <h1 class="h3 mb-3 font-weight-normal">Connectez vous</h1>
+        {% if form.errors %}
+          <p>Identifiant ou mot de passe incorrect !</p>
+        {% endif %}
+        {% if next %}
+          {% if user.is_authenticated %}
+            <p>Votre compte n'a pas accès a cette page. To proceed,
+              please login with an account that has access.</p>
+          {% else %}
+            <p>Veuillez vous connecter pour voir cette page.</p>
+          {% endif %}
+        {% endif %}
+
+          <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <div class="row loginForm">
+            <div class="form-group" style="margin: auto">
+              <div>{{ form.username.label_tag }}</div>
+              <div>{{ form.username }}</div>
+            </div>
+          </div>
+          <div class="row loginForm">
+            <div class="form-group" style="margin: auto">  
+              <div class="mt-3">{{ form.password.label_tag }}</div>
+                <div class="mb-3">{{ form.password }} </div> 
+            </div>
+          </div>
+      </div>
+      <div class="container col-md-3" > 
+        <div class="row mt-2">
+          <!-- <input type="submit" value="Connexion" /> -->
+          <button class="btn btn-lg btn-primary btn-block" type="submit" value="Connexion">Connexion</button>
+          <input type="hidden" name="next" value="{{ next }}" />
+        </div>
+        <div class="row">
+          <p class="mt-5 mb-3 col-md-12" style="text-shadow: #000000 1px 1px, #000000 -1px 1px, #000000 -1px -1px, #000000 1px -1px; color: white">&copy;Afpa-2018</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</html>

@@ -1,0 +1,104 @@
+{% extends 'garage/base.html' %}
+
+{% load static %}
+{% block head %}
+<link href="{% static 'garage/css/style.css' %}" rel="stylesheet" type="text/css" />
+{% endblock head %}
+
+{% block content %}
+
+    <div class="row mt-5">
+        <h1 class="col-md-5">{% block title %}Liste des Clients{% endblock title %}</h1>
+        
+        {% block search %}{% endblock search %}
+    </div>
+
+    {% block list %}
+ 
+            <h4 class="col-md-12 mt-5" >
+                <div class="row mb-3">
+                    <div class=" col-md-3">Nom</div>
+                    <div class=" col-md-3">Prénom</div>
+                    <div class="col-md-3">N° AFPA</div>
+                    <div class="col-md-3">E-mail</div>
+                </div>
+            </h4>
+ 
+            
+        {% for customer in object_list %}
+            <input type="radio" class="btn col-md-1 radio" id="{{customer.id}}" name="btnCustomer" ondblclick="redirect()" onclick='javascript:document.customerChecked={{customer.id}};' />
+        
+            <label for="{{customer.id}}" id="listing" class="col-md-12">
+                <div class="row " ondblclick="redirect()">
+                    <div class=" col-md-3">{{ customer.lastname }}</div>
+                    <div class=" col-md-3">{{ customer.firstname }}</div>
+                    <div class="col-md-3">{{ customer.afpa_number }}</div>
+                    <div class="col-md-3">{{ customer.personal_data.mail }}</div>
+                </div>
+            </label>
+        
+            {% empty %}
+            <p class="col-md-12">aucun client</p>
+
+        {% endfor %}
+        <div id="error" class=" col-md-12 mt-2"></div>
+    {% endblock list %}
+
+    {% if is_paginated %}       
+        <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+        {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+        </ul>
+        {% endif %}
+
+    {% block buttons %}
+        <div class="row">
+            <div class="container">
+                    <div class="row mt-5">
+                        <a href="{% url 'garage:home' %}" class=" btn btn-sm btn-primary col-md-2" >Annuler</a>
+                        <div class="col-md-4"></div>
+                        <button class=" btn btn-primary btn-sm col-md-2" onClick="updateCustomer()">Modifier</button>
+                        <div class="col-md-2"></div>
+                        <button class="  btn btn-primary btn-sm col-md-2" onClick="redirect()">Valider/étape suivante</button>
+                    </div>
+                </div>
+                  
+        </div>
+    {% endblock buttons %}
+    
+<script type="text/javascript">
+            
+    function redirect() {
+        if (window.location.href.indexOf("clients") >= 0 && document.customerChecked){
+            window.location = "{% url 'garage:customer-update' 1 %}".replace(1, document.customerChecked)
+        }
+        else if (window.location.href.indexOf("selection") >= 0 && document.customerChecked){
+            window.location = "{% url 'garage:vehicle-select' 1 %}".replace(1, document.customerChecked)  
+        }  else {
+            document.getElementById("error").innerHTML = "Veuillez selectionner un client."
+        }        
+    }
+    function updateCustomer() {
+        if (document.customerChecked){
+            window.location = "{% url 'garage:customer-update' 1 %}".replace(1, document.customerChecked)      
+        } else {
+            document.getElementById("error").innerHTML = "Veuillez selectionner un client."
+        }       
+    }
+</script>
+{% endblock content %}

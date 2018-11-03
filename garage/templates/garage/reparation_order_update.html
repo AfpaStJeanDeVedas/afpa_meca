@@ -1,0 +1,17 @@
+{% extends 'garage/reparation_order.html' %}
+
+{% block alert %}{% endblock alert %}
+{% block myTitle %}Modification de l'ordre de réparation{% endblock myTitle %}
+{% block button %}
+    <div class="row mt-4">
+        <div class="col-md-2">
+            <a href="javascript:history.go(-1);" class="btn btn-primary btn-sm btn-block">Annuler</a>
+        </div>
+        <div class="col-md-8">
+        </div>               
+        <div class="col-md-2">
+            <button class="btn btn-primary btn-sm btn-block" type="submit">Valider</button>
+        </div>
+    </div> 
+{% endblock button %}
+

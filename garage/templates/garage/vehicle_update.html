@@ -1,0 +1,77 @@
+{% extends 'garage/vehicle_form.html' %}
+
+{% block title %}Modification Véhicule{% endblock title %}
+{% block title_bike %}Modification Vélo{% endblock title_bike %}
+
+{% block radio %}
+{% endblock radio %}
+ 
+                   
+
+{% block button_motorised %}{% endblock button_motorised %}
+{% block button_bike %}{% endblock button_bike %}
+{% block buttons %}
+<div class="row mt-4">
+        <div class="col-md-2">
+            <a href="javascript:history.go(-1);" class="btn btn-primary btn-sm btn-block">Annuler</a>
+        </div>
+        <div class="col-md-8">
+        </div>               
+        <div class="col-md-2">
+            <button class="btn btn-primary btn-sm btn-block" onClick="submitButton()" type="submit">Valider</button>
+        </div>
+</div> 
+{% endblock buttons %} 
+
+{% block reparation_order_list %}
+<h2 class="mt-5">Liste des ordres de réparation rattachés</h2>
+<div class="row mt-4">
+        
+        <h4 class="col-md-12" >
+            <div class="row">
+                <div class=" col-md-3">Client</div>
+                <div class=" col-md-2">Véhicule</div>
+                <div class="col-md-2">Réceptionnaire</div>
+                <div class="col-md-3">Date de réception</div>
+                <div class="col-md-2">Statut</div>
+            </div>
+        </h4>
+        
+        
+        
+        {% for reparation_order in reparation_order_list %}
+        <input type="radio" class="btn col-md-1 radio" id="{{reparation_order.id}}" name="reparation_order" onclick='javascript:document.reparation_orderChecked={{reparation_order.id}};' ></input>
+    
+        <label for="{{reparation_order.id}}" id="listing" class="col-md-12" ondblclick="redirect()">
+            <div class="row ">
+                <div class="col-md-3">{{ reparation_order.vehicle.customer.lastname }} {{ reparation_order.vehicle.customer.firstname }}</div>
+                <div class="col-md-2">{{ reparation_order.vehicle }}</div>
+                <div class="col-md-2">{{ reparation_order.user_profile }}</div>
+                <div class="col-md-3">{{ reparation_order.reparation_order }}</div>
+                <div class="col-md-2">{{ reparation_order.status }}</div>
+                
+            </div>
+        </label>
+    
+        {% empty %}
+        <p class="col-md-12">aucune intervention avec ce véhicule.</p>
+        {% endfor %}
+        <div id="error"></div>
+    </div>
+</div>
+
+{% endblock reparation_order_list %}
+
+{% block myscript %}
+    <script>      
+        function redirect() {
+            console.log("ok")
+            if ( window.location.href.indexOf("actualisation") >= 0){
+                window.location = "{% url 'garage:reparation-order-update' 1 %}".replace(1, document.reparation_orderChecked)
+        }
+        function submitButton(){
+                document.forms[0].submit() 
+        }
+    }
+    </script>
+{% endblock myscript %}

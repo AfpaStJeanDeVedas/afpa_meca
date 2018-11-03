@@ -1,0 +1,123 @@
+{% extends 'garage/base.html' %}
+{% load static %}
+{% block head %}
+<link href="{% static 'garage/css/style.css' %}" rel="stylesheet" type="text/css" />
+{% endblock head %}
+
+{% block content %}
+
+    <div class="row mt-5">
+        <h1 class="col-md-5">{% block title %}Liste des Vehicules{% endblock title %}</h1> 
+        
+        {% block search %}{% endblock search %}
+    </div>
+
+    {% block list %}
+    
+        <h4 class="col-md-12 mt-5" >
+            <div class="row mb-3">
+                <div class=" col-md-3">Modele </div>
+                <div class=" col-md-3">Marque</div>
+                <div class="col-md-3">N° VIN</div>
+                <div class="col-md-3">N° Immatriculation</div>
+            </div>
+        </h4>
+        
+        {% for vehicle in vehicle_list %}
+        <input type="radio" class="btn col-md-1 radio" id="{{vehicle.id}}" name="VehicleBtn" onclick='javascript:document.vehicleChecked={{vehicle.id}}' >
+    
+    <label for="{{vehicle.id}}" id="listing" class="col-md-12 label_vehicle" ondblclick="redirect()">
+        <div class="row ">
+            <div class="col-md-3">{{ vehicle.model_name }}</div>
+            <div class="col-md-3">{{ vehicle.brand }}</div>
+            <div class="col-md-3">{{ vehicle.vin }}</div>
+            <div class="col-md-3">{{ vehicle.license_plate }}</div>
+        </div> 
+    </label>
+    
+    {% empty %}
+    <p class="col-md-12">aucun véhicule</p>
+
+    {% endfor %}
+      
+    <div id="error" class=" col-md-12 mt-2"></div>
+    {% endblock list %}
+
+    {% if is_paginated %}
+        <ul class="pagination">
+
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+
+        </ul>
+    {% endif %}
+
+    {% block buttons %}
+        <div class="row">
+            <div class="container">
+                    <div class="row mt-5">
+                        <a href="{% url 'garage:home' %}" class=" btn btn-sm btn-primary col-md-2" >Annuler</a>
+                        <div class="col-md-4"></div>
+                        <button class=" btn btn-primary btn-sm col-md-2" onClick="updateVehicle()">Modifier</button>
+                        <div class="col-md-2"></div>
+                        <button class="  btn btn-primary btn-sm col-md-2" onClick="redirect()">Valider et Attribuer un véhicule</button>
+                    </div>
+                </div>
+                  
+        </div>
+    {% endblock buttons %}
+
+
+
+
+
+<script type="text/javascript">
+
+    function redirect() {
+        if (document.vehicleChecked && window.location.href.indexOf("vehicules") >= 0){
+            window.location = "{% url 'garage:vehicle-update' 1 %}".replace(1, document.vehicleChecked)
+        }
+        else if (document.vehicleChecked && window.location.href.indexOf("select") >= 0){
+            window.location = "{% url 'garage:reparation-order-create' 1 %}".replace(1, document.vehicleChecked)
+        } else {
+            document.getElementById("error").innerHTML = "Veuillez selectionner un véhicule."
+        }     
+    }
+    
+    function vehicle_create() { 
+//expression régulière qui récupère l'id client
+//[/] = recherche le caractère "/" dans l'ulr
+//(d+) = "()" retourne la valeur à l'intérieur des (), "d" cherche un nombre entre [0-9],
+// "+" cherche entre 1 et plusieurs fois le paramètre saisi avant 
+// window.location.href.match(/[/](\d+)[/]/) retourne un tableau = [/nombre/, nombre]
+        let stringToFind = window.location.href.match(/[/](\d+)[/]/)
+        window.location = "{% url 'garage:vehicle-create' 1 %}".replace(1, stringToFind[1])
+        }
+    function updateVehicle() {
+        if (document.vehicleChecked){
+        window.location = "{% url 'garage:vehicle-update' 1 %}".replace(1, document.vehicleChecked)            
+    } else {
+        document.getElementById("error").innerHTML = "Veuillez selectionner un véhicule"
+    }       
+}
+</script> 
+
+
+{% endblock %}

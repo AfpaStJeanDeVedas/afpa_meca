@@ -1,0 +1,14 @@
+{% extends 'garage/reparation_orders_list.html' %}
+{% block cancel %}
+    {% if not quotations_list %}
+        <a href="{% url 'garage:home' %}" class=" btn btn-sm btn-primary col-md-2" >Annuler</a>
+    {% else %}
+        <div class="col-md-2"> </div>
+    {% endif %}
+{% endblock cancel %}
+{% block search %}
+    <div class="col-md-5 "></div>
+    <div class="col-md-2 ">
+        <button onClick="redirect_quotation_create()" class="btn btn-sm btn-primary btn-sm btn-block" >Affecter devis</button>
+    </div>
+{% endblock search %}
