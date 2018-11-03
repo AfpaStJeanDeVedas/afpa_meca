@@ -24,3 +24,6 @@ Pre-requis :
                                         }
                                     }
 
+
+Sauvegarde du projet de la team Afpa_Meca pour archivage
+Source officielle : https://github.com/BrieucDaigneau/afpa_meca
